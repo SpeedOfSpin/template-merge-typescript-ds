@@ -3,13 +3,11 @@ module.exports = {
     categories: [
       {
         name: 'General',
-        include: [
-          'src/components/Button/Button.tsx',
-        ],
+        include: ['src/components/UXPin/Button/Button.tsx', 'src/components/UXPin/Edits/TextInput.tsx'],
       },
     ],
     wrapper: 'src/components/UXPinWrapper/UXPinWrapper.tsx',
     webpackConfig: 'webpack.config.js',
   },
-  name: 'TypeScript Design System'
+  name: 'TypeScript Design System',
 };

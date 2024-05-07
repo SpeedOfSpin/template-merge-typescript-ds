@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   label: string;
   disabled?: boolean;
   onClick?: () => void;
 }
 
-export default function Button(props: ButtonProps) {
+export const Button = (props: ButtonProps) => {
   const { onClick, disabled, label } = props;
 
   return (
@@ -14,4 +14,4 @@ export default function Button(props: ButtonProps) {
       {label}
     </button>
   );
-}
+};

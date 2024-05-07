@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,12 +16,6 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".uxpin-merge"
-  ],
-  "include": [
-    "src"
-  ]
+  "exclude": ["node_modules", "dist", ".uxpin-merge"],
+  "include": ["src"]
 }

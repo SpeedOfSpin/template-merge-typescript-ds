@@ -1,6 +1,9 @@
 import React from 'react';
-import Button from './components/Button/Button';
 import './App.css';
+import { H4 } from './components/Labels/Headers';
+import { Grid } from './components/Grid/Grid';
+import { TextInput } from './components/Edits/TextInput';
+import Button from './components/UXPin/Button/Button';
 
 function App() {
   return (
@@ -10,6 +13,8 @@ function App() {
       </header>
       <div>
         <Button label="Button"></Button>
+        <H4>Test</H4>
+        <TextInput displayName="Test" value={() => 3} />
       </div>
     </div>
   );
