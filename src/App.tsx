@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
 import { H4 } from './components/Labels/Headers';
-import { TextInput } from './components/Edits/TextInput';
 import Button from './components/UXPin/Button/Button';
 import { Model } from './Model';
+import TextInput from './components/UXPin/Edits/TextInput';
+import { observer } from 'mobx-react';
 
 const testModel = new Model();
 
-function App() {
+const App = observer(() => {
+  console.log('Render app');
   return (
     <div className="container">
       <header>
@@ -20,6 +22,6 @@ function App() {
       </div>
     </div>
   );
-}
+});
 
 export default App;
