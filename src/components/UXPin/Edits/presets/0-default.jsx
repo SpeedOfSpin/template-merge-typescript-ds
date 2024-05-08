@@ -1,4 +1,7 @@
 import * as React from 'react';
 import TextInput from '../TextInput';
+import { Model } from '../../../../Model';
 
-export default <TextInput uxpId="textinput" disabled={false} displayName="Test Input" value={() => 3}></TextInput>;
+const testModel = new Model();
+
+export default <TextInput displayName="Test" onChange={testModel.updateFirstName} value={() => testModel.firstName} />;

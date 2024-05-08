@@ -1,9 +1,11 @@
 import React from 'react';
 import './App.css';
 import { H4 } from './components/Labels/Headers';
-import { Grid } from './components/Grid/Grid';
 import { TextInput } from './components/Edits/TextInput';
 import Button from './components/UXPin/Button/Button';
+import { Model } from './Model';
+
+const testModel = new Model();
 
 function App() {
   return (
@@ -14,7 +16,7 @@ function App() {
       <div>
         <Button label="Button"></Button>
         <H4>Test</H4>
-        <TextInput displayName="Test" value={() => 3} />
+        <TextInput displayName="Test" onChange={testModel.updateFirstName} value={() => testModel.firstName} />
       </div>
     </div>
   );

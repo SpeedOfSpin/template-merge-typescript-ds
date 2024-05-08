@@ -79,6 +79,9 @@ const Container = styled(TextField)`
 /**
  * Button interface.
  */
+/**
+ * Represents the props for the TextInput component.
+ */
 export interface IInputBaseProps {
   /**
    * An optional id for use with the button.
@@ -88,43 +91,55 @@ export interface IInputBaseProps {
    * An optional class name for use with the button.
    */
   className?: string;
+  /**
+   * A callback function that is called when the value of the input changes.
+   * @param value - The new value of the input.
+   * @param keyState - The state of the keyboard keys.
+   * @param e - The form event associated with the input change.
+   */
   onChange?: (value: string, keyState: IKeyState, e?: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  /**
+   * Specifies whether the input is disabled.
+   */
   disabled?: boolean;
+  /**
+   * The children of the TextInput component.
+   */
   children?: React.ReactNode;
   /**
-   * A value to use with the control. Will be passed back by the command.
+   * The value of the input.
    */
-  value: () => string | number;
+  value: () => string;
   /**
-   * Controls whether the copy button should be displayed
+   * Specifies whether the copy button should be displayed.
    */
   copyToClipboard?: boolean;
   /**
-   * Text content to display in the control label.
+   * The text content to display in the control label.
    */
   displayName?: string;
   /**
-   * Text content to display in the placeholder.
+   * The text content to display in the placeholder.
    */
   placeholder?: string;
   /**
-   * Text content to display in the error message.
+   * The text content to display in the error message.
    */
   validationMessage?: () => string;
   /**
-   * Treats the component as a textarea.
+   * Specifies whether the component should be treated as a textarea.
    */
   multiline?: boolean;
   /**
-   * Number of rows in a multiline box
+   * The number of rows in a multiline box.
    */
   rows?: number;
   /**
-   * Forces browsers to not fill the text
+   * Specifies whether the input should not be automatically filled by the browser.
    */
   autoFill?: boolean;
   /**
-   * Styling of the control.
+   * The styling of the control.
    */
   style?: CSSProperties | undefined;
   /**
@@ -136,15 +151,15 @@ export interface IInputBaseProps {
    */
   description?: string;
   /**
-   * Any JSX Element
+   * Any JSX element to be displayed as a prefix.
    */
   prefix?: JSX.Element;
   /**
-   * Any JSX Element
+   * Any JSX element to be displayed as a suffix.
    */
   suffix?: JSX.Element | undefined;
   /**
-   * The control type - password or text.
+   * The type of the input control.
    */
   type?: 'password' | 'text' | 'email' | 'number';
   /**
@@ -152,17 +167,15 @@ export interface IInputBaseProps {
    */
   maskedOptions?: any;
   /**
-   * Set if you want to disable the input.
+   * Specifies whether the input is read-only.
    */
   readonly?: boolean;
   /**
-   * Use to make cypress testing easier
+   * Used to make Cypress testing easier.
    */
   cy?: string;
   /**
-   * Specifies whether the header should be hidden or not.
-   * If true, the header will be hidden.
-   * If false or undefined, the header will be displayed.
+   * Specifies whether the label should be hidden.
    */
   noLabel?: boolean;
   /**
@@ -172,27 +185,26 @@ export interface IInputBaseProps {
   maxLength?: number;
   /**
    * Specifies whether the input field should automatically get focus when the page loads.
-   * If true, the input field will automatically get focus.
-   * If false or undefined, the input field will not automatically get focus.
    */
   autoFocus?: boolean;
   /**
    * Specifies whether the label text should be transformed to uppercase.
-   * If true, the label text will be transformed to uppercase.
-   * If false or undefined, the label text will not be transformed.
    */
   uppercaseLabel?: boolean;
+  /**
+   * A render function that returns the JSX element to be rendered.
+   * @param props - The props passed to the TextInput component.
+   * @returns The JSX element to be rendered.
+   */
   render?: (props: IInputBaseProps) => JSX.Element;
   /**
-   * Specifies a function to be called when the input field gets focus.
-   * The function should take a FocusEvent as a parameter.
-   * If undefined, no function will be called when the input field gets focus.
+   * A function to be called when the input field gets focus.
+   * @param event - The focus event.
    */
   onFocus?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
   /**
-   * Specifies a function to be called when the input field loses focus.
-   * The function should take a FocusEvent as a parameter.
-   * If undefined, no function will be called when the input field loses focus.
+   * A function to be called when the input field loses focus.
+   * @param event - The focus event.
    */
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 }
@@ -264,8 +276,8 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     return props.uppercaseLabel ? 'uppercase' : 'inherit';
   };
   const canDisplayClear = (): boolean => {
-    if (!isNullOrUndefined(props.value())) {
-      return !isEmptyOrWhitespace(props.value().toString()) && !isDisabled();
+    if (!isNullOrUndefined(getValue())) {
+      return !isEmptyOrWhitespace(getValue()) && !isDisabled();
     }
     return false;
   };
@@ -281,11 +293,10 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
       props.onFocus(event);
     }
   };
-  const height = inputRef.current?.clientHeight;
   const canDisplayEyeIcon = (): boolean => {
     let retVal = false;
-    if (!isNullOrUndefined(props.value()) && props.type === 'password') {
-      retVal = !isEmptyOrWhitespace(props.value().toString()) && !isDisabled();
+    if (!isNullOrUndefined(getValue()) && props.type === 'password') {
+      retVal = !isEmptyOrWhitespace(getValue()) && !isDisabled();
     }
     return retVal;
   };
@@ -324,7 +335,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
         break;
     }
     if (keyId === 8 || keyId === 13 || keyId === 46) {
-      updateValue(props.value() as string);
+      updateValue(getValue());
     }
   };
   const clearTextCommand = () => {
@@ -336,6 +347,9 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     const regex = /[^a-z]/gi;
     const result = (props.displayName || '').replace(regex, '').toLowerCase();
     return props.cy || result;
+  };
+  const getValue = (): string => {
+    return props.value() || '';
   };
   //#endregion Code Behind
 
@@ -366,7 +380,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
           //onKeyDown={onKeyDown}
           placeholder={props.placeholder}
           style={getStyles()}
-          value={props.value()}
+          value={getValue()}
           rows={props.rows}
           onFocus={props.onFocus}
           onBlur={props.onBlur}
@@ -387,7 +401,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
           ref={inputRef}
           autoFocus={props.autoFocus}
           {...props.maskedOptions}
-          value={props.value()?.toString()}
+          value={getValue()}
           onAccept={(value, mask) => {
             updateValue(mask.unmaskedValue);
             //console.log(value, mask);
@@ -425,7 +439,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     </Box>
   );
 
-  const copyButton = props.copyToClipboard ? <CopyToClipboardButton text={props.value()?.toString()} /> : null;
+  const copyButton = props.copyToClipboard ? <CopyToClipboardButton text={getValue()} /> : null;
 
   if (props.render) {
     return props.render(props);
@@ -441,7 +455,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
         </Container>
       ) : (
         <Flex showIf={props.readonly} alignItems={'self-end'}>
-          <Text>{props.value()}</Text>
+          <Text>{getValue()}</Text>
         </Flex>
       )}
     </>
