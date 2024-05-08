@@ -13,12 +13,12 @@ const App = observer(() => {
   return (
     <div className="container">
       <header>
-        <p>Hello Merge!</p>
+        <p>Hello {testModel.firstName}!!</p>
       </header>
       <div>
         <Button label="Button"></Button>
         <H4>Test</H4>
-        <TextInput displayName="Test" onChange={testModel.updateFirstName} value={() => testModel.firstName} />
+        <TextInput displayName="First Name" onChange={testModel.updateFirstName} value={() => testModel.firstName} />
       </div>
     </div>
   );
