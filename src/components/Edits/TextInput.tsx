@@ -109,7 +109,7 @@ export interface IInputBaseProps {
   /**
    * The value of the input.
    */
-  value: () => string;
+  value: string;
   /**
    * Specifies whether the copy button should be displayed.
    */
@@ -349,7 +349,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     return props.cy || result;
   };
   const getValue = (): string => {
-    return props.value() || '';
+    return props.value || '';
   };
   //#endregion Code Behind
 

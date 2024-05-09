@@ -6,11 +6,11 @@ export class Model {
   constructor() {
     makeObservable(this, {
       firstName: observable,
-      updateFirstName: action,
+      updateFirstName2: action,
     });
   }
 
-  public updateFirstName = (value: string) => {
+  public updateFirstName2 = (value: string) => {
     console.log('updateFirstName', value);
     this.firstName = value;
   };
