@@ -109,7 +109,7 @@ export interface IInputBaseProps {
   /**
    * The value of the input.
    */
-  value: () => string;
+  value: string;
   /**
    * Specifies whether the copy button should be displayed.
    */
@@ -209,7 +209,7 @@ export interface IInputBaseProps {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 }
 
-export const TextInput: React.FC<IInputBaseProps> = observer((props: IInputBaseProps) => {
+export const TextInputNoFunc: React.FC<IInputBaseProps> = observer((props: IInputBaseProps) => {
   return <TextInputBase {...props} />;
 });
 export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputBaseProps) => {
@@ -349,7 +349,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     return props.cy || result;
   };
   const getValue = (): string => {
-    return props.value() || '';
+    return props.value || '';
   };
   //#endregion Code Behind
 
@@ -462,7 +462,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
   );
 });
 
-TextInput.defaultProps = {
+TextInputNoFunc.defaultProps = {
   maxLength: 10000,
   maskedOptions: { mask: /.*/ },
 };

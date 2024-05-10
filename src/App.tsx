@@ -6,25 +6,24 @@ import { Model } from './Model';
 import TextInput from './components/UXPin/Edits/TextInput';
 import { observer } from 'mobx-react';
 import { zustandModel } from './ZustandModel';
+import TextInputNoFunc from './components/UXPin/EditsNoFunc/TextInputNofunc';
 
 const testModel = new Model();
 
-const App = () => {
-  const firstName = zustandModel((state: any) => state.firstName);
-  const updateFirstName = zustandModel((state: any) => state.updateFirstName);
+const App = observer(() => {
   console.log('Render app');
   return (
     <div className="container">
-      <header>
-        <p>Hello {firstName}!!</p>
-      </header>
+      <header></header>
       <div>
         <Button label="Button"></Button>
         <H4>Test</H4>
-        <TextInput displayName="First Name" onChange={updateFirstName} value={firstName} />
+        <TextInput displayName="First Name" onChange={testModel.updateFirstName} value={() => testModel.firstName} />
+        <TextInput displayName="Last Name" onChange={testModel.updateLastName} value={() => testModel.lastName} />
+        <TextInputNoFunc displayName="Last Name" onChange={testModel.updateLastName} value={testModel.lastName} />
       </div>
     </div>
   );
-};
+});
 
 export default App;
