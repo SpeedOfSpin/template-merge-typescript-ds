@@ -109,7 +109,7 @@ export interface IInputBaseProps {
   /**
    * The value of the input.
    */
-  value: () => string;
+  value: string;
   /**
    * Specifies whether the copy button should be displayed.
    */
@@ -125,7 +125,7 @@ export interface IInputBaseProps {
   /**
    * The text content to display in the error message.
    */
-  validationMessage?: () => string;
+  validationMessage?: string;
   /**
    * Specifies whether the component should be treated as a textarea.
    */
@@ -213,7 +213,7 @@ export const TextInput: React.FC<IInputBaseProps> = observer((props: IInputBaseP
   return <TextInputBase {...props} />;
 });
 export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputBaseProps) => {
-  const haveError = !isEmptyOrWhitespace(props.validationMessage?.() as string);
+  const haveError = !isEmptyOrWhitespace(props.validationMessage as string);
   const isMultiLine = !isNullOrUndefined(props.multiline) ? props.multiline : false;
   const errorLabel = getThemeColorOption('error');
   const [type, setType] = useState(props.type);
@@ -239,7 +239,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
   };
 
   const getValidationMessage = (): string => {
-    return isEmptyOrWhitespace(props.validationMessage?.() as string) ? '' : (props.validationMessage?.() as string);
+    return isEmptyOrWhitespace(props.validationMessage as string) ? '' : (props.validationMessage as string);
   };
   const isDisabled = (): boolean => {
     return props.disabled || false;
@@ -349,7 +349,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
     return props.cy || result;
   };
   const getValue = (): string => {
-    return props.value() || '';
+    return props.value || '';
   };
   //#endregion Code Behind
 

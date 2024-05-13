@@ -44,6 +44,7 @@
     "uxpin": "npx uxpin-merge --disable-tunneling",
     "start": "webpack serve --mode development",
     "build": "webpack",
+    "publish": "npx uxpin-merge push --webpack-config ./webpack.config.js --wrapper ./src/components/UXPinWrapper/UXPinWrapper.tsx --token 352712165158991e3efaf762df7ed04d339e6968",
     "prettier:check": "npx prettier src/ --check",
     "prettier:write": "npx prettier src/ --write",
     "eslint": "npx eslint src/"
