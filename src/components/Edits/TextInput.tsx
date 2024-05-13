@@ -33,7 +33,8 @@ const EyeIconContainer = styled.div`
 const InputLabel = styled(Label)`
   ${theme.styles.fieldLabel}
 `;
-const Container = styled(TextField)`
+const Container = styled(TextField)<{ customCss?: CSSProperties }>`
+  ${(props: any) => props.customCss}
   .input-container {
     display: flex;
     align-items: center;
@@ -91,6 +92,7 @@ export interface IInputBaseProps {
    * An optional class name for use with the button.
    */
   className?: string;
+  customCSS?: CSSProperties;
   /**
    * A callback function that is called when the value of the input changes.
    * @param value - The new value of the input.
@@ -142,6 +144,10 @@ export interface IInputBaseProps {
    * The styling of the control.
    */
   style?: CSSProperties | undefined;
+  /**
+   * The styling of the label.
+   */
+  labelStyle?: CSSProperties | undefined;
   /**
    * The color of the label.
    */
@@ -358,7 +364,11 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
       <InputLabel
         ref={labelRef}
         className="input-label"
-        style={{ color: haveError ? errorLabel : props.labelColor, textTransform: getLabelTextTransform() }}
+        style={{
+          color: haveError ? errorLabel : props.labelColor,
+          textTransform: getLabelTextTransform(),
+          ...props.labelStyle,
+        }}
       >
         {props.displayName || <>&nbsp;</>}
       </InputLabel>
@@ -448,7 +458,7 @@ export const TextInputBase: React.FC<IInputBaseProps> = observer((props: IInputB
   return (
     <>
       {!props.readonly ? (
-        <Container className={props.className}>
+        <Container customCss={props.customCSS} className={props.className}>
           {!props.noLabel && displayLabel}
           {multiLineTextBox}
           {inputEditBox}

@@ -18,7 +18,7 @@ const App = observer(() => {
       <div>
         <Button label="Button"></Button>
         <H4>Test</H4>
-        <TextInput displayName="First Name" onChange={testModel.updateFirstName} value={testModel.firstName} />
+        <TextInput onChange={testModel.updateFirstName} value={testModel.firstName} />
       </div>
     </div>
   );
